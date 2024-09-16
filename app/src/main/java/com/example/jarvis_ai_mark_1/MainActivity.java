@@ -44,10 +44,14 @@ public class MainActivity extends AppCompatActivity {
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.RECORD_AUDIO)
                 .withListener(new PermissionListener() {
-                    @Override public void onPermissionGranted(PermissionGrantedResponse response) {}
+                    @Override public void onPermissionGranted(PermissionGrantedResponse response) {
+
+                    }
+
                     @Override public void onPermissionDenied(PermissionDeniedResponse response) {
                         System.exit(0);
                     }
+
                     @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
                         token.continuePermissionRequest();
                     }
