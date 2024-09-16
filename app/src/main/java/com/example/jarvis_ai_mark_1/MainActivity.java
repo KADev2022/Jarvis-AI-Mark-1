@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Use the Dexter library to add permission to record audio
+        // Use the Dexter library to add the permission to record audio
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.RECORD_AUDIO)
                 .withListener(new PermissionListener() {
