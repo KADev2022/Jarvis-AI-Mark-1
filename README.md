@@ -5,6 +5,7 @@ It is named after the fictional character from the Iron Man series of comics and
 
 ## Features
 The Jarvis AI Mark 1 Android app will include:
+* Text to Speech
 * Speech to Text
 * Time and Date
 * Greeting
