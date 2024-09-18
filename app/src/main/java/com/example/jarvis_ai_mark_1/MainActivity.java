@@ -2,10 +2,12 @@ package com.example.jarvis_ai_mark_1;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private SpeechRecognizer recognizer;
     private TextView textView;
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,38 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).check();
 
+        initTextToSpeech();
         findById();
         result();
+    }
+
+    /*
+    Function to initialise text to speech
+     */
+    private void initTextToSpeech() {
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                // If the engine size is empty, then it is not available
+                // Otherwise Jarvis will speak
+                if (tts.getEngines().size() == 0) {
+                    Toast.makeText(MainActivity.this, "Engine is not available", Toast.LENGTH_SHORT).show();
+                } else {
+                    speak("Hi, I am Jarvis AI Mark One");
+                }
+            }
+        });
+    }
+
+    /*
+    Function to allow Jarvis to speak
+     */
+    private void speak(String msg) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tts.speak(msg, TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            tts.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
 
     /*
