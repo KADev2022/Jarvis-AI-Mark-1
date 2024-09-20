@@ -8,6 +8,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,11 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private SpeechRecognizer recognizer;
@@ -143,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<String> result = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                     Toast.makeText(MainActivity.this, "" + result.get(0), Toast.LENGTH_SHORT).show();
                     textView.setText(result.get(0));
+                    response(result.get(0));
                 }
 
                 @Override
@@ -155,6 +161,33 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+        }
+    }
+
+    /*
+    Function to allow Jarvis to respond to your voice
+     */
+    private void response(String msg) {
+        String messages = msg.toLowerCase(Locale.ROOT);
+
+        // If your voice includes the word 'hi', then Jarvis will say 'Hello Sir, Jarvis at your service. Please tell me how can I help you?'
+        if (messages.indexOf("hi") != -1) {
+            speak("Hello Sir, Jarvis at your service. Please tell me how can I help you?");
+        }
+
+        // If your voice includes the word 'time', then Jarvis will say the time
+        if (messages.indexOf("time") != -1) {
+            Date date = new Date();
+            String time = DateUtils.formatDateTime(this, date.getTime(), DateUtils.FORMAT_SHOW_TIME);
+            speak(time);
+        }
+
+        // If your voice includes the word 'date', then Jarvis will say today's date
+        if (messages.indexOf("date") != -1) {
+            SimpleDateFormat dt = new SimpleDateFormat("dd MM yyyy");
+            Calendar cal = Calendar.getInstance();
+            String todayDate = dt.format(cal.getTime());
+            speak("The date today is" + todayDate);
         }
     }
 
