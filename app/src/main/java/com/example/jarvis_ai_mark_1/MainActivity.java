@@ -1,5 +1,7 @@
 package com.example.jarvis_ai_mark_1;
 
+import static com.example.jarvis_ai_mark_1.GreetingFunction.wishMe;
+
 import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
@@ -82,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
                 if (tts.getEngines().size() == 0) {
                     Toast.makeText(MainActivity.this, "Engine is not available", Toast.LENGTH_SHORT).show();
                 } else {
-                    speak("Hi, I am Jarvis AI Mark One");
+                    String greet = wishMe();
+                    speak("Hi, I am Jarvis AI Mark One" + greet);
                 }
             }
         });
@@ -185,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
         // If your voice includes the word 'date', then Jarvis will say today's date
         if (messages.indexOf("date") != -1) {
             SimpleDateFormat dt = new SimpleDateFormat("dd MM yyyy");
-            Calendar cal = Calendar.getInstance();
-            String todayDate = dt.format(cal.getTime());
+            Calendar calendar = Calendar.getInstance();
+            String todayDate = dt.format(calendar.getTime());
             speak("The date today is" + todayDate);
         }
     }
