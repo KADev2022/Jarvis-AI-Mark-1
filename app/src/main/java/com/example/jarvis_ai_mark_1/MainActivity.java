@@ -4,6 +4,7 @@ import static com.example.jarvis_ai_mark_1.GreetingFunction.wishMe;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -200,6 +201,24 @@ public class MainActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             String todayDate = dt.format(calendar.getTime());
             speak("The date today is" + todayDate);
+        }
+
+        // If your voice includes the word 'google', then Jarvis will navigate you to Google
+        if (messages.indexOf("google") != -1) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"));
+            startActivity(intent);
+        }
+
+        // If your voice includes the word 'youtube', then Jarvis will navigate you to YouTube
+        if (messages.indexOf("youtube") != -1) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
+            startActivity(intent);
+        }
+
+        // If your voice includes the word 'search', then Jarvis will navigate you to Google with the search query you mentioned
+        if (messages.indexOf("search") != -1) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=" + messages.replace("search", "")));
+            startActivity(intent);
         }
     }
 
