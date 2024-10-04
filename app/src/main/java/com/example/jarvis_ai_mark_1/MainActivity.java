@@ -82,8 +82,10 @@ public class MainActivity extends AppCompatActivity {
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
-                // If the engine size is empty, then it is not available
-                // Otherwise Jarvis will speak
+                /*
+                - If the engine size is empty, then it is not available
+                - Otherwise Jarvis will speak
+                 */
                 if (tts.getEngines().size() == 0) {
                     Toast.makeText(MainActivity.this, "Engine is not available", Toast.LENGTH_SHORT).show();
                 } else {
