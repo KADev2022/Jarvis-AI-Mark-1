@@ -3,8 +3,10 @@ package com.example.jarvis_ai_mark_1;
 import java.util.Calendar;
 
 public class GreetingFunction {
-    /*
-    Function to greet the user whatever time it is
+    /**
+     * Function to greet the user whatever time it is
+     *
+     * @return greet
      */
     static String wishMe() {
         String greet = "";

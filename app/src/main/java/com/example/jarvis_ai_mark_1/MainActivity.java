@@ -54,15 +54,18 @@ public class MainActivity extends AppCompatActivity {
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.RECORD_AUDIO)
                 .withListener(new PermissionListener() {
-                    @Override public void onPermissionGranted(PermissionGrantedResponse response) {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
 
                     }
 
-                    @Override public void onPermissionDenied(PermissionDeniedResponse response) {
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
                         System.exit(0);
                     }
 
-                    @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
                         token.continuePermissionRequest();
                     }
                 }).check();
@@ -72,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         result();
     }
 
-    /*
-    Function to initialise text to speech
+    /**
+     * Function to initialise text to speech
      */
     private void initTextToSpeech() {
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -91,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    Function to allow Jarvis to speak
+    /**
+     * Function to allow Jarvis to speak
+     *
+     * @param msg allows Jarvis to speak to the user
      */
     private void speak(String msg) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -102,15 +107,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    Function to find the element by ID
+    /**
+     * Function to find the element by ID
      */
     private void findById() {
         textView = (TextView) findViewById(R.id.textView);
     }
 
-    /*
-    Function to convert speech to text
+    /**
+     * Function to convert speech to text
      */
     private void result() {
         if (SpeechRecognizer.isRecognitionAvailable(this)) {
@@ -167,8 +172,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    Function to allow Jarvis to respond to your voice
+    /**
+     * Function to allow Jarvis to respond to your voice
+     *
+     * @param msg allows Jarvis to respond to the user's voice
      */
     private void response(String msg) {
         String messages = msg.toLowerCase(Locale.ROOT);
@@ -194,8 +201,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    Function to start recording your voice
+    /**
+     * Function to start recording your voice
+     *
+     * @param view controls the view of the "RECORD AUDIO" button
      */
     public void startRecording(View view) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
