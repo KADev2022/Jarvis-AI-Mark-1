@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
         // If your voice includes the word 'search', then Jarvis will navigate you to Google with the search query you mentioned
         if (messages.indexOf("search") != -1) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=" + messages.replace("search", "")));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=" + messages.replace("search ", "")));
             startActivity(intent);
         }
     }
