@@ -235,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
             writeToFile(messages.replace("jarvis remember that ", ""));
         }
 
+        // If your voice includes the word 'know', then Jarvis will say the task you have told to remember
         if (messages.indexOf("know") != -1) {
             String data = readFromFile();
             speak("Yes Sir you told me to remember that " + data);
