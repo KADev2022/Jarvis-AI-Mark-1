@@ -3,6 +3,7 @@ package com.example.jarvis_ai_mark_1;
 import static com.example.jarvis_ai_mark_1.GreetingFunction.wishMe;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,12 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -220,6 +228,70 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=" + messages.replace("search ", "")));
             startActivity(intent);
         }
+
+        // If your voice includes the word 'remember', then Jarvis will remember the task you have requested and it will be written to the file
+        if (messages.indexOf("remember") != -1) {
+            speak("Okay Sir I'll remember that for you!");
+            writeToFile(messages.replace("jarvis remember that ", ""));
+        }
+
+        if (messages.indexOf("know") != -1) {
+            String data = readFromFile();
+            speak("Yes Sir you told me to remember that " + data);
+        }
+    }
+
+    /**
+     * Function to write the user's task to the file
+     *
+     * @param data the data will capture the task that the user has asked Jarvis to remember
+     */
+    private void writeToFile(String data) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("data.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed" + e.toString());
+        }
+    }
+
+    /**
+     * Function to read the user's task from the file
+     *
+     * @return result
+     */
+    private String readFromFile() {
+        String result = "";
+
+        try {
+            InputStream inputStream = openFileInput("data.txt");
+
+            /*
+            - If the input stream has content in the file, then the input stream reader will read it
+            - The buffered reader will then read the input stream reader
+            - The string builder will add the content to the result and this will allow Jarvis to know what the user has said
+             */
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveStr = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((receiveStr = bufferedReader.readLine()) != null) {
+                    stringBuilder.append("\n").append(receiveStr);
+                }
+
+                inputStream.close();
+                result = stringBuilder.toString();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("Exception", "File not found" + e.toString());
+        } catch (IOException e) {
+            Log.e("Exception", "Cannot read file" + e.toString());
+        }
+
+        return result;
     }
 
     /**
