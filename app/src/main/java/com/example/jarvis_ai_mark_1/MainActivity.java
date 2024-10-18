@@ -5,6 +5,7 @@ import static com.example.jarvis_ai_mark_1.GreetingFunction.wishMe;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private SpeechRecognizer recognizer;
     private TextView textView;
     private TextToSpeech tts;
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,6 +241,68 @@ public class MainActivity extends AppCompatActivity {
         if (messages.indexOf("know") != -1) {
             String data = readFromFile();
             speak("Yes Sir you told me to remember that " + data);
+        }
+
+        // If your voice includes the word 'play', then Jarvis will play the song
+        if (messages.indexOf("play") != -1) {
+            play();
+        }
+
+        // If your voice includes the word 'pause', then Jarvis will pause the song
+        if (messages.indexOf("pause") != -1) {
+            pause();
+        }
+
+        // If your voice includes the word 'stop', then Jarvis will stop the song
+        if (messages.indexOf("stop") != -1) {
+            stop();
+        }
+    }
+
+    /**
+     * Function to stop the song
+     */
+    private void stop() {
+        stopPlayer();
+    }
+
+    /**
+     * Function to pause the song
+     */
+    private void pause() {
+        // If the player is played, then it will pause the song
+        if (player != null) {
+            player.pause();
+        }
+    }
+
+    /**
+     * Function to play the song
+     */
+    private void play() {
+        // If the player is not played, then it will play the song
+        if (player == null) {
+            player = MediaPlayer.create(this, R.raw.song);
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    stopPlayer();
+                }
+            });
+        }
+
+        player.start();
+    }
+
+    /**
+     * Function to stop playing the song
+     */
+    private void stopPlayer() {
+        // If the player is played, then it will stop playing the song
+        if (player != null) {
+            player.release();
+            player = null;
+            Toast.makeText(this, "MediaPlayer released", Toast.LENGTH_SHORT).show();
         }
     }
 
